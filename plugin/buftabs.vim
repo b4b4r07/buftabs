@@ -146,8 +146,8 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let w:buftabs_enabled = 0
-let w:original_statusline = matchstr(&statusline, "%=.*")
+let g:buftabs_enabled = 0
+let g:original_statusline = matchstr(&statusline, "%=.*")
 
 "
 " Don't bother when in diff mode
@@ -163,7 +163,7 @@ endif
 "
 
 function! Buftabs_enable()
-	let w:buftabs_enabled = 1
+	let g:buftabs_enabled = 1
 endfunction
 
 
@@ -193,11 +193,11 @@ function! Buftabs_show(deleted_buf)
 	let s:list = ''
 	let l:start = 0
 	let l:end = 0
-	if ! exists("w:from") 
-		let w:from = 0
+	if ! exists("g:from") 
+		let g:from = 0
 	endif
 
-	if ! exists("w:buftabs_enabled")
+	if ! exists("g:buftabs_enabled")
 		return
 	endif
 
@@ -274,14 +274,14 @@ function! Buftabs_show(deleted_buf)
 
 	let l:width = winwidth(0) - 12
 
-	if(l:start < w:from) 
-		let w:from = l:start - 1
+	if(l:start < g:from) 
+		let g:from = l:start - 1
 	endif
-	if l:end > w:from + l:width
-		let w:from = l:end - l:width 
+	if l:end > g:from + l:width
+		let g:from = l:end - l:width 
 	endif
 		
-	let s:list = strpart(s:list, w:from, l:width)
+	let s:list = strpart(s:list, g:from, l:width)
 
 	" Replace the magic characters by visible markers for highlighting the
 	" current buffer. The markers can be simple characters like square brackets,
@@ -313,7 +313,7 @@ function! Buftabs_show(deleted_buf)
 		" Only overwrite the statusline if buftabs#statusline() has not been
 		" used to specify a location
 		if match(&statusline, "%{buftabs#statusline()}") == -1
-			let &l:statusline = s:list . w:original_statusline
+			let &l:statusline = s:list . g:original_statusline
 		end
 	else
 		redraw
